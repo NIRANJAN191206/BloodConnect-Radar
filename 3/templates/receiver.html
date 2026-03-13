@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Blood</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 40px; border-radius: 20px; width: 380px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+        .btn { 
+            width: 100%; padding: 15px; margin-top: 20px; border-radius: 8px; border: none; 
+            background: #dd2e17; color: white; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { background: #df0a0a; transform: scale(1.02); box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        a { color: #94a3b8; text-decoration: none; display: block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="color: #f10808;">🏥 Create Blood Request</h2>
+        <p style="font-size: 13px; color: #94a3b8;">Submitting this will notify all matching donors via SMS.</p>
+        <input id="patient" placeholder="Patient Name">
+        <input id="blood" placeholder="Blood Group (e.g. B+)">
+        <input id="hospital" placeholder="Hospital Name">
+        <input id="phone" placeholder="Emergency Contact Number">
+        <input id="city" placeholder="City (Mumbai/Chennai)">
+        <button class="btn" onclick="sendRequest()">Broadcast Emergency</button>
+        <a href="/">← Return Home</a>
+    </div>
+
+    <script>
+        async function sendRequest() {
+            const data = {
+                patient: document.getElementById('patient').value,
+                blood: document.getElementById('blood').value,
+                hospital: document.getElementById('hospital').value,
+                phone: document.getElementById('phone').value,
+                city: document.getElementById('city').value
+            };
+            
+            const res = await fetch('/api/request_blood', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+
+            if(res.ok) {
+                alert("Request Broadcasted! SMS sent to matching donors.");
+                window.location.reload(); // Refresh form after success
+            }
+        }
+    </script>
+</body>
+</html>
