@@ -1,0 +1,14 @@
+<div id="map" style="height: 500px; width: 80%; border-radius: 15px; margin-top: 20px;"></div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map').setView([11.94, 79.80], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    fetch('/api/get_donors').then(r => r.json()).then(data => {
+        data.forEach(d => {
+            L.marker([d.lat, d.lon])
+                .addTo(map)
+                .bindPopup(`<b>${d.name}</b><br>Group: ${d.blood}<br>Mobile: <a href="tel:${d.phone}">${d.phone}</a>`);;
+        });
+    });
+</script>

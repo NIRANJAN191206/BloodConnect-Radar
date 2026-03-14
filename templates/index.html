@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | BloodConnect</title>
+    <style>
+        body {
+            margin: 0;
+            background: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ff0033;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            width: 90%;
+            animation: slideUp 0.8s ease;
+        }
+
+        .card {
+            background: #161b22;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #30363d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Neon Glow Effect on Hover */
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: #ff0033;
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.4);
+        }
+
+        .card h2 {
+            margin: 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: #8b949e;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        /* Individual Card Accents */
+        .donor-card:hover { background: rgba(255, 0, 51, 0.05); }
+        .receiver-card:hover { background: rgba(255, 0, 51, 0.05); }
+        .map-card:hover { background: rgba(0, 255, 136, 0.05); }
+        .map-card:hover { border-color: #00ff88; box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(50px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* Footer Logout/Back */
+        .back-link {
+            margin-top: 50px;
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .back-link:hover { color: white; }
+    </style>
+</head>
+<body>
+
+    <h1>BloodConnect Dashboard</h1>
+
+    <div class="dashboard-grid">
+        <div class="card donor-card" onclick="location.href='/donor_page'">
+            <div class="icon">🩸</div>
+            <h2>Be a Donor</h2>
+            <p>Register your details and location to save lives in your city.</p>
+        </div>
+
+        <div class="card receiver-card" onclick="location.href='/receiver_page'">
+            <div class="icon">📢</div>
+            <h2>Request Blood</h2>
+            <p>Broadcast an emergency alert to all matching donors nearby.</p>
+        </div>
+
+        <div class="card map-card" onclick="location.href='/map_page'">
+            <div class="icon">📍</div>
+            <h2>Live Radar</h2>
+            <p>View all available donors on an interactive real-time map.</p>
+        </div>
+    </div>
+
+    <a href="/" class="back-link">← Return to Landing Page</a>
+
+</body>
+</html>

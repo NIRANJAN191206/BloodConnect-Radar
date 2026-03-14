@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body { background: #0b0e14; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .container { background: #161b22; padding: 40px; border-radius: 15px; width: 400px; margin-top: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #0d1117; color: white; }
+        .btn { width: 100%; padding: 15px; border: none; background: #ff0033; color: white; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+        .btn:hover { background: #ff1a4d; transform: scale(1.05); box-shadow: 0 0 20px #ff0033; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #333; text-align: left; }
+        h2{
+            color: #ff0033;
+        }
+    </style>
+
+    <div class="container">
+        <h2>Find Donors</h2>
+        <form id="rForm">
+            <input type="text" id="p" placeholder="Patient Name" required>
+            <select id="b"><option value="" disabled selected>Select Blood Group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+            <input type="text" id="h" placeholder="Hospital">
+            <input type="text" id="ph" placeholder="Your Phone">
+            <button type="button" class="btn" onclick="sendReq()">Broadcast & View Donors</button>
+        </form>
+    
+        <div id="res" style="display:none">
+            <h3 style="color:#00ff88">Matched Donors Found:</h3>
+            <table>
+                <thead><tr><th>Name</th><th>Phone</th></tr></thead>
+                <tbody id="list"></tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+    async function sendReq() {
+        const d = {patient:document.getElementById('p').value, blood:document.getElementById('b').value, hospital:document.getElementById('h').value, phone:document.getElementById('ph').value, city:"Puducherry"};
+        const r = await fetch('/api/request_blood', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(d)});
+        const res = await r.json();
+        if(res.status === 'success') {
+            document.getElementById('rForm').reset();
+            document.getElementById('res').style.display = 'block';
+            document.getElementById('list').innerHTML = res.donors.map(don => `<tr><td>${don.name}</td><td>${don.phone}</td></tr>`).join('');
+        }
+    }
+    </script>
+</body>
+</html>
